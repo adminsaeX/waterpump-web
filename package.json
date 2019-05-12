@@ -1,0 +1,24 @@
+{
+  "name": "waterpump-web",
+  "version": "0.0.1",
+  "description": "water pump web application, system report",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ballsurakiat/waterpump-web.git"
+  },
+  "keywords": [
+    "water",
+    "pump",
+    "web"
+  ],
+  "author": "ballsurakiat",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ballsurakiat/waterpump-web/issues"
+  },
+  "homepage": "https://github.com/ballsurakiat/waterpump-web#readme"
+}
