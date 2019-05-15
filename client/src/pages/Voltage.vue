@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <h1>Dashboard</h1>
+    <h1>Voltage</h1>
   </q-page>
 </template>
 

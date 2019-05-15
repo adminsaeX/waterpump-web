@@ -13,10 +13,10 @@
         </q-btn>
 
         <q-toolbar-title>
-          Quasar App
+          WaterPump WebApplication
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>Develop by </div><q-chip icon="check_circle" size="10px">Quasar v{{ $q.version }}</q-chip>
       </q-toolbar>
     </q-header>
 
@@ -25,51 +25,84 @@
       bordered
       content-class="bg-grey-2"
     >
-      <q-list>
-        <q-item-label header>Essential Links</q-item-label>
-        <q-item clickable tag="a" target="_blank" href="http://v1.quasar-framework.org">
+      <q-list separator bordered>
+        <q-item-label header>รายงาน</q-item-label>
+
+        <q-item clickable to="/Dashboard">
           <q-item-section avatar>
-            <q-icon name="school" />
+            <q-icon name="home" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Docs</q-item-label>
-            <q-item-label caption>v1.quasar-framework.org</q-item-label>
+            <q-item-label>ภาพรวม</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://github.com/quasarframework/">
+
+        <q-item clickable to="/Voltage">
           <q-item-section avatar>
-            <q-icon name="code" />
+            <q-icon name="flash_on" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Github</q-item-label>
-            <q-item-label caption>github.com/quasarframework</q-item-label>
+            <q-item-label>แรงดันไฟฟ้า</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" href="http://chat.quasar-framework.org">
+
+        <q-item clickable to="/Electricity">
           <q-item-section avatar>
-            <q-icon name="chat" />
+            <q-icon name="flash_on" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Discord Chat Channel</q-item-label>
-            <q-item-label caption>chat.quasar-framework.org</q-item-label>
+            <q-item-label>กระแสไฟฟ้า</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://forum.quasar-framework.org">
+
+        <q-item clickable to="/ElectricPower">
           <q-item-section avatar>
-            <q-icon name="record_voice_over" />
+            <q-icon name="flash_on" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Forum</q-item-label>
-            <q-item-label caption>forum.quasar-framework.org</q-item-label>
+            <q-item-label>กำลังไฟฟ้า</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://twitter.com/quasarframework">
+
+        <q-item clickable to="/ElectricalEnergy">
           <q-item-section avatar>
-            <q-icon name="rss_feed" />
+            <q-icon name="flash_on" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Twitter</q-item-label>
-            <q-item-label caption>@quasarframework</q-item-label>
+            <q-item-label>พลังงานไฟฟ้า</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable to="/WaterFlow">
+          <q-item-section avatar>
+            <q-icon name="timeline" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>การไหลของน้ำ</q-item-label>
+            <!-- <q-item-label caption>Overview report</q-item-label> -->
+          </q-item-section>
+        </q-item>
+      </q-list>
+
+      <q-list separator bordered>
+        <q-item-label header>ทั่วไป</q-item-label>
+        <q-item clickable to="/ManageUsers">
+          <q-item-section avatar>
+            <q-icon name="assignment_ind" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>จัดการผู้ใช้</q-item-label>
+            <!-- <q-item-label caption>Overview report</q-item-label> -->
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable to="/Setting">
+          <q-item-section avatar>
+            <q-icon name="build" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>ตั้งค่า</q-item-label>
+            <!-- <q-item-label caption>Overview report</q-item-label> -->
           </q-item-section>
         </q-item>
       </q-list>

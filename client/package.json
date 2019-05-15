@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.0.1",
   "description": "waterpump web-application",
-  "productName": "water pump",
+  "productName": "WaterPump WebApplication",
   "cordovaId": "com.waterpump.quasar.app",
   "author": "ballsurakiat",
   "private": true,
