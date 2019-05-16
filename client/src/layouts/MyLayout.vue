@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" id="app">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -37,49 +37,21 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="/Voltage">
-          <q-item-section avatar>
-            <q-icon name="flash_on" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>แรงดันไฟฟ้า</q-item-label>
-          </q-item-section>
-        </q-item>
-
         <q-item clickable to="/Electricity">
           <q-item-section avatar>
             <q-icon name="flash_on" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>กระแสไฟฟ้า</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-item clickable to="/ElectricPower">
-          <q-item-section avatar>
-            <q-icon name="flash_on" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>กำลังไฟฟ้า</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-item clickable to="/ElectricalEnergy">
-          <q-item-section avatar>
-            <q-icon name="flash_on" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>พลังงานไฟฟ้า</q-item-label>
+            <q-item-label>ไฟฟ้า</q-item-label>
           </q-item-section>
         </q-item>
 
         <q-item clickable to="/WaterFlow">
           <q-item-section avatar>
-            <q-icon name="timeline" />
+            <q-icon name="waves" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>การไหลของน้ำ</q-item-label>
-            <!-- <q-item-label caption>Overview report</q-item-label> -->
+            <q-item-label>น้ำ</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -129,6 +101,9 @@ export default {
   }
 }
 </script>
-
-<style>
+<style scoped>
+  @import url('https://fonts.googleapis.com/css?family=Sarabun');
+  #app {
+    font-family: 'Sarabun', sans-serif;
+  }
 </style>

@@ -22,8 +22,8 @@ const actions = {
     logout({ commit }) {
         commit('logout')
     },
-    getServerStatus({state, commit}, form) {
-        return makeRequest(state.token).post(`/api/`, querystring.stringify(form))
+    getElectricityReport({ state, commit }, reportType) {
+        return makeRequest(state.token).post(`/api/report/electricity`, querystring.stringify(reportType))
         .then(({ status, data }) => {
             if (status === 200 && !String(data).startsWith('Error')) {
                 return data

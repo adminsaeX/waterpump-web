@@ -38,7 +38,18 @@ module.exports = function (ctx) {
         'QItem',
         'QItemSection',
         'QItemLabel',
-        'QChip'
+        'QChip',
+        'QCard',
+        'QCardSection',
+        'QCardActions',
+        'QInput',
+        'QSelect',
+        'QTable',
+        'QTh',
+        'QTr',
+        'QTd',
+        'QTime',
+        'QDate'
       ],
 
       directives: [
