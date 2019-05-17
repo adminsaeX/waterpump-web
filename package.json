@@ -4,7 +4,8 @@
   "description": "water pump web application, system report",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "dev": "nodemon server"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,14 @@
   "bugs": {
     "url": "https://github.com/ballsurakiat/waterpump-web/issues"
   },
-  "homepage": "https://github.com/ballsurakiat/waterpump-web#readme"
+  "homepage": "https://github.com/ballsurakiat/waterpump-web#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "express": "^4.17.0",
+    "mongodb": "^3.2.4",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.0",
+    "winston": "^3.2.1"
+  }
 }
