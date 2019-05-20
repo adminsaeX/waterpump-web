@@ -26,7 +26,9 @@ const url = 'mongodb://localhost:27017'
 // const dbName = 'thinger_data'
 const dbName = 'solar_pump'
 var options = {
-    server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 3000 } }
+    keepAlive: 1,
+    connectTimeoutMS: 3000,
+    useNewUrlParser: true
 }
 
 MongoClient.connect(url, options, function (err, client) {
@@ -34,9 +36,27 @@ MongoClient.connect(url, options, function (err, client) {
     // console.log("Connection Electricity successful!");
     const db = client.db(dbName)
     
-    electricityApp.get('/:date', function (req, res) {
-        var data = req.params.date
-        db.collection("report_data").find({ ts: new Date(data) }).toArray(function (err, result) {
+    electricityApp.get('/:date_start/:date_end/:type/:pump', function (req, res) {
+        var date_start = req.params.date_start || ''
+        var date_end = req.params.date_end || ''
+        var type = req.params.type || ''
+        var pump = req.params.pump || ''
+
+
+        console.log('electricityApp', {
+            date_start: new Date(date_start),
+            date_end: new Date(date_end),
+            type,
+            pump,
+        });
+        
+        db.collection("report_data").find({
+            ts: {
+                $gte: new Date(date_start),
+                $lt: new Date(date_end),
+            },
+            bucket: { $regex: pump, $options: "$i" }
+        }).toArray(function (err, result) {
             if (err || this.status == 'DESTOYER'){
                 res.status(500).json({
                     msg: err.message

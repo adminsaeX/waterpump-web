@@ -75,23 +75,20 @@
     </q-layout-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view class="margin-view" />
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import { openURL } from 'quasar'
 
 export default {
-  name: 'MyLayout',
   data () {
     return {
       leftDrawerOpen: this.$q.platform.is.desktop
     }
   },
   methods: {
-    openURL
   }
 }
 </script>
@@ -99,5 +96,8 @@ export default {
   @import url('https://fonts.googleapis.com/css?family=Sarabun');
   #app {
     font-family: 'Sarabun', sans-serif;
+  }
+  .margin-view {
+    margin: 1% 1% 0 1%;
   }
 </style>
