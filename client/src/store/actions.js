@@ -11,6 +11,7 @@ const makeRequest = (token) => {
     }
     return axios.create(options)
 }
+
 const getApiUrl = () => {
     if (process.env.NODE_ENV !== 'production') {
         return 'http://localhost:3000'
@@ -18,6 +19,7 @@ const getApiUrl = () => {
         return document.location.origin
     }
 }
+
 const actions = {
     logout({ commit }) {
         commit('logout')
@@ -25,16 +27,12 @@ const actions = {
     GetReportData({ state, commit }, { search, date}) {
         return makeRequest().get(`/api/electricity/${date.date_start + '/'}${date.date_end + '/'}${search.reportType + '/'}${search.SolarPump + '/'}`)
         .then(({ status, data }) => {
-            if (status === 200 && !String(data).startsWith('Error')) {
+            if (status === 200) {
                 return data
-            } else {
-                return 'error: 404'
             }
         }).catch(function (error) {
-            if (error.response) {
-                console.error(error.response.data)
-            }
-            return error
+            console.log(error.data);
+            return
         })
     },
     changeLng({ commit }, lng) {

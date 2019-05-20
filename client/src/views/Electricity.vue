@@ -29,7 +29,7 @@
                                 icon="event"
                                 helper="วันเริ่มต้น"
                             >
-                                <q-datetime v-model="search.date_start" @change="checkDateStartData" type="date" />
+                                <q-datetime v-model="search.date_start" @change="validateDateStartData" type="date" />
                             </q-field>
 
                         </div>
@@ -38,7 +38,7 @@
                                 icon="event"
                                 helper="วันสิ้นสุด"
                             >
-                                <q-datetime v-model="search.date_end" @change="checkDateEndData" type="date" />
+                                <q-datetime v-model="search.date_end" @change="validateDateEndData" type="date" />
                             </q-field>
                         </div>
                     </div>
@@ -66,12 +66,13 @@
         </q-list>
         <br><hr><br>
         <div>
-            <highcharts :options="chartOptions"></highcharts>
+            <canvas id="reportChart"></canvas>
         </div>
     </div>
 </template>
 <script>
 import * as convert from '../untilities/convertor'
+import Chart from 'chart.js'
 export default {
     data () {
         return {
@@ -79,56 +80,83 @@ export default {
             seacrhCollapsiblePanel: true,
             reportTypeOptions: this.$store.state.reportType,
             SolarPumpOptions: this.$store.state.solarPump,
-            chartOptions: {
-                series: [
-                    {
-                        data: [1, 2, 3] 
-                    },
-                    {
-                        data: [1, 2, 4]
-                    }
-                ],
-                title: {
-                    align: 'left',
-                    text: 'Solar WaterPump - Overview'
-                }
-            }
+            option: initChartOption()
         }
     },
     created() {
     },
-    computed: {
-    },
     methods: {
-        checkDateStartData () {
-            if (this.search.date_start > this.search.date_end) {
-                this.search.date_end = this.search.date_start
-            }
-        },
-        checkDateEndData () {
-            if (this.search.date_end < this.search.date_start) {
-                this.search.date_start = this.search.date_end
-            }
+        createChart () {
+            var ctx = document.getElementById('reportChart')
+            new Chart(ctx, this.option)
         },
         loadReportData () {
             var date = {
                 date_start: convert.convertDateTime(this.search.date_start),
                 date_end: convert.convertDateTime(this.search.date_end)
             }
-
-            this.$store.dispatch('GetReportData', { search: this.search, date}).then((response) => {
-                console.log('response', response);
-                
-                // this.chartOptions.series = []
-                // for (var i in response) {
-                //     this.chartOptions.series.push(response[i])
-                // }
+            this.$store.dispatch('GetReportData', { search: this.search, date}).then(async (response) => {
+                if (response) {
+                    var data = response.data
+                    // this.option.data.datasets = []
+                    // for (var i in data) {
+                    //     this.option.data.datasets.push({
+                    //         data: data[i].val.DC_Amp,
+                    //         label: data[i].bucket,
+                    //         borderColor: '#6E7EF5',
+                    //         fill: false
+                    //     })
+                    // }
+                    await this.createChart()
+                    console.log(this.option.data.datasets);
+                }
             })
+        },
+        validateDateStartData () {
+            if (this.search.date_start > this.search.date_end) {
+                this.search.date_end = this.search.date_start
+            }
+        },
+        validateDateEndData () {
+            if (this.search.date_end < this.search.date_start) {
+                this.search.date_start = this.search.date_end
+            }
         },
         clearSearchData () {
             this.search = initData()
         }
     },
+}
+const initChartOption = () => {
+    return {
+        type: 'line',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [
+                {
+                    label: 'Page A',
+                    data: [61, 122, 107, 73],
+                    borderColor: '#6E7EF5',
+                    fill: false
+                },
+                {
+                    label: 'Page B',
+                    data: [18, 170, 135, 92],
+                    borderColor: '#B277DE',
+                    fill: false
+                },
+                {
+                    label: 'Page C',
+                    data: [4, 111, 122, 55],
+                    borderColor: '#48DD31',
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true
+        }
+    }
 }
 const initData = () => {
     return {

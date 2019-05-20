@@ -8,6 +8,7 @@ const express = require('express')
 const electricityApp = express.Router()
 const MongoClient = require('mongodb').MongoClient
 const assert = require('assert')
+const colors = require('colors')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const compression = require('compression')
@@ -25,13 +26,20 @@ const url = 'mongodb://localhost:27017'
 // Database Name
 // const dbName = 'thinger_data'
 const dbName = 'solar_pump'
-var options = {
-    keepAlive: 1,
-    connectTimeoutMS: 3000,
+
+var db_options = {
+    autoReconnect: true,
+    poolSize: 20,
+    socketTimeoutMS: 480000,
+    keepAlive: 300000,
+    keepAliveInitialDelay: 300000,
+    connectTimeoutMS: 30000,
+    reconnectTries: Number.MAX_VALUE,
+    reconnectInterval: 1000,
     useNewUrlParser: true
 }
 
-MongoClient.connect(url, options, function (err, client) {
+MongoClient.connect(url, db_options, function (err, client) {
     assert.equal(null, err);
     // console.log("Connection Electricity successful!");
     const db = client.db(dbName)
@@ -42,31 +50,39 @@ MongoClient.connect(url, options, function (err, client) {
         var type = req.params.type || ''
         var pump = req.params.pump || ''
 
-
-        console.log('electricityApp', {
-            date_start: new Date(date_start),
-            date_end: new Date(date_end),
+        console.log('electricityApp', colors.cyan({
+            date_start: date_start,
+            date_end: date_end,
             type,
             pump,
-        });
+        }))
         
         db.collection("report_data").find({
-            ts: {
-                $gte: new Date(date_start),
-                $lt: new Date(date_end),
-            },
-            bucket: { $regex: pump, $options: "$i" }
+            // ts: {
+            //     $gte: new Date(date_start),
+            //     $lte: new Date(date_end)
+            // },
+            // "bucket": pump
         }).toArray(function (err, result) {
             if (err || this.status == 'DESTOYER'){
                 res.status(500).json({
-                    msg: err.message
+                    data: err.message
                 })
+                console.log('MongoDB', colors.red(err.message))
                 return
             }
-            res.json(result)
-            client.close()
-        });
+            console.log(colors.green(result))
+            if (result.length > 0) {
+                res.json({
+                    data: result
+                })
+            } else {
+                res.json({
+                    data: 'no data'
+                })
+            }
+        })
     })
-});
+})
 
 module.exports = electricityApp
