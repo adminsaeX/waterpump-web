@@ -21,8 +21,12 @@ const initialState = () => {
       { value: 'DC_Amp', label: 'แรงดันไฟฟ้า' },
       { value: 'DC_Volt', label: 'กระแสไฟฟ้า' },
       { value: 'DC_Watt', label: 'กำลังไฟฟ้า' },
-      { value: 'DC_kWattH', label: 'พลังงานไฟฟ้า' },
-      { value: 'Flow_Rate', label: 'การไหลของน้ำ' }
+      { value: 'DC_kWattH', label: 'พลังงานไฟฟ้า' }
+    ],
+    reportWaterFlowType: [
+      { value: 'Flow_Rate', label: 'การไหลของน้ำ' },
+      { value: 'Moisture', label: 'ความชื้น' },
+      { value: 'Temperature', label: 'อุณหภูมิ' }
     ],
     solarPump: [
       { value: 'SolarPumping@Solarpump01', label: 'SolarPumping@Solarpump01' },

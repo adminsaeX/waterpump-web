@@ -29,7 +29,6 @@ const dbName = 'solar_pump'
 
 var db_options = {
     autoReconnect: true,
-    poolSize: 20,
     socketTimeoutMS: 480000,
     keepAlive: 300000,
     keepAliveInitialDelay: 300000,
@@ -40,45 +39,47 @@ var db_options = {
 }
 
 MongoClient.connect(url, db_options, function (err, client) {
-    assert.equal(null, err);
-    // console.log("Connection Electricity successful!");
-    const db = client.db(dbName)
-    
-    electricityApp.get('/:date_start/:date_end/:type/:pump', function (req, res) {
-        var date_start = req.params.date_start || ''
-        var date_end = req.params.date_end || ''
-        var type = req.params.type || ''
-        var pump = req.params.pump || ''
+    assert.equal(null, err)
+    const db = client.db(dbName).collection("report_data")
 
+    // api get report data
+    electricityApp.post('/', function (req, res) {
+        var date_start = req.body.date_start || ''
+        var date_end = req.body.date_end || ''
+
+        // log data request
         console.log('electricityApp', colors.cyan({
-            date_start: date_start,
-            date_end: date_end,
-            type,
-            pump,
+            date_start: new Date(date_start),
+            date_end: new Date(date_end)
         }))
         
-        db.collection("report_data").find({
-            // ts: {
-            //     $gte: new Date(date_start),
-            //     $lte: new Date(date_end)
-            // },
-            // "bucket": pump
+        // mongodb query function
+        db.find({
+            "ts": {
+                $gte: new Date(req.body.date_start), 
+                $lte: new Date(req.body.date_end)
+            }
         }).toArray(function (err, result) {
-            if (err || this.status == 'DESTOYER'){
+            // if mongodb have an error send status 500
+            if (err || this.status == 'DESTOYER') {
                 res.status(500).json({
                     data: err.message
                 })
                 console.log('MongoDB', colors.red(err.message))
                 return
             }
-            console.log(colors.green(result))
+
+            // check result before respones
+            console.log('result', colors.red(result.length))
             if (result.length > 0) {
                 res.json({
+                    status: 200,
                     data: result
                 })
             } else {
                 res.json({
-                    data: 'no data'
+                    status: 404,
+                    data: 'No data'
                 })
             }
         })

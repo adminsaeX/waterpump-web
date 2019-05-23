@@ -5,28 +5,20 @@
                 <q-collapsible icon="assignment" label="กรองข้อมูลรายงานข้อมูลไฟฟ้า" v-model="collapsible">
                     <div class="row  gutter-md">
                         <div class="col">
-                            <q-input
-                                v-model="sFullname"
-                                type="text"
-                                clearable
-                                float-label="ค้นหาจากรายชื่อ"
-                            />
+                            <q-field
+                                icon="event"
+                                helper="วันเริ่มต้น"
+                            >
+                                <q-datetime v-model="date_start" type="date" />
+                            </q-field>
                         </div>
                         <div class="col">
-                            <q-input
-                                v-model="sSubDistrict"
-                                type="text"
-                                clearable
-                                float-label="ค้นหาจากตำบล"
-                            />
-                        </div>
-                        <div class="col">
-                            <q-input
-                                v-model="sDistrict"
-                                type="text"
-                                clearable
-                                float-label="ค้นหาจากอำเภอ"
-                            />
+                            <q-field
+                                icon="event"
+                                helper="วันสิ้นสุด"
+                            >
+                                <q-datetime v-model="date_end" type="date" />
+                            </q-field>
                         </div>
                     </div>
                     <br>
@@ -43,22 +35,8 @@
                                 />
                             </span>
                         </div>
-                        <div class="col" align="right">
-                            <q-btn
-                                color="positive"
-                                outline
-                            >
-                                <q-icon name="add" /> เพิ่มผู้ใช้
-                            </q-btn>
-                            &nbsp;
-                            <q-btn
-                                color="negative"
-                                outline
-                            >
-                                <q-icon name="clear" /> ลบผู้ใช้
-                            </q-btn>
+                        <div class="col">
                         </div>
-
                     </div>
                 </q-collapsible>
             </q-list>
@@ -82,10 +60,9 @@
 export default {
     data () {
         return {
-            sFullname: '',
-            sSubDistrict: '',
-            sDistrict: '',
             filter: '',
+            date_start: new Date(),
+            date_end: new Date(),
             collapsible: true,
             columns: initColumn(),
             tableData: [],
@@ -131,14 +108,11 @@ export default {
         }
     },
     watch: {
-        'sFullname': function () {
-            this.searchDataTable(this.sFullname)
+        'date_start': function () {
+            this.searchDataTable(this.date_start)
         },
-        'sSubDistrict': function () {
-            this.searchDataTable(this.sSubDistrict)
-        },
-        'sDistrict': function () {
-            this.searchDataTable(this.sDistrict)
+        'date_end': function () {
+            this.searchDataTable(this.date_end)
         },
         'paginationPage': function () {
             this.pagination.rowsPerPage = this.paginationPage
@@ -150,6 +124,13 @@ export default {
     methods: {
         searchDataTable (keyword) {
             this.filter = keyword
+            // console.log(keyword);
+            // if (keyword != '') {
+            //     this.dataTemp = this.tableData
+            //     this.tableData = this.tableData.filter(data => String(data[`${mode}`]) == String(keyword))
+            // } else {
+            //     this.generateDataTable()
+            // }
         },
         generateDataTable () {
             var data = this.tableData
@@ -157,15 +138,14 @@ export default {
             for (var i = 2; i< 939; i++) {
                 var num = Math.floor((Math.random() * 999999) + 100000)
                 data.push({
-                    id: 'U-'+num,
-                    fullname: 'NAME '+num,
+                    serialNo: 'SN-'+num,
                     address: '1000/'+Math.floor((Math.random() * 20) + 10),
                     subDistrict: subDistrict[Math.floor((Math.random() * 8) + 0)],
                     district: 'เมือง',
                     province: 'หนองบัวลำภู',
-                    username: 'username'+i,
-                    tel: '09' + Math.floor((Math.random() * 99999999) + 10000000),
-                    status: 'ใช้งาน'
+                    admin: 'admin'+i,
+                    dateNoti: `2019/${Math.floor((Math.random() * 12) + 1)}/` + Math.floor((Math.random() * 20) + 10),
+                    notiNote: 'note code ' + Math.floor((Math.random() * 99999999) + 10000000)
                 })
             }
         }
@@ -174,16 +154,9 @@ export default {
 const initColumn = () => {
     return [
         {
-            field: 'id',
-            name: 'id',
-            label: 'id',
-            align: 'left',
-            sortable: true
-        },
-        {
-            field: 'fullname',
-            name: 'fullname',
-            label: 'fullname',
+            field: 'serialNo',
+            name: 'serialNo',
+            label: 'serialNo',
             align: 'left',
             sortable: true
         },
@@ -216,23 +189,23 @@ const initColumn = () => {
             sortable: true
         },
         {
-            field: 'tel',
-            name: 'tel',
-            label: 'tel',
+            field: 'admin',
+            name: 'admin',
+            label: 'admin',
             align: 'left',
             sortable: true
         },
         {
-            field: 'username',
-            name: 'username',
-            label: 'username',
+            field: 'dateNoti',
+            name: 'dateNoti',
+            label: 'dateNoti',
             align: 'left',
             sortable: true
         },
         {
-            field: 'status',
-            name: 'status',
-            label: 'status',
+            field: 'notiNote',
+            name: 'notiNote',
+            label: 'notiNote',
             align: 'left',
             sortable: true
         }
@@ -240,15 +213,14 @@ const initColumn = () => {
 }
 const initVisibleColumns = () => {
     return [
-        'id',
-        'fullname',
+        'serialNo',
         'address',
         'subDistrict',
         'district',
         'province',
-        'tel',
-        'username',
-        'status'
+        'admin',
+        'dateNoti',
+        'notiNote',
     ]
 }
 </script>

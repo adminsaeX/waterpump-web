@@ -24,12 +24,15 @@ const actions = {
     logout({ commit }) {
         commit('logout')
     },
-    GetReportData({ state, commit }, { search, date}) {
-        return makeRequest().get(`/api/electricity/${date.date_start + '/'}${date.date_end + '/'}${search.reportType + '/'}${search.SolarPump + '/'}`)
+    GetReportData({ state, commit }, date) {
+        return makeRequest().post('/api/electricity/', date)
         .then(({ status, data }) => {
-            if (status === 200) {
-                return data
-            }
+            console.log(data)
+            // if (data.status === 200) {
+            //     return data
+            // } else {
+            //     return false
+            // }
         }).catch(function (error) {
             console.log(error.data);
             return

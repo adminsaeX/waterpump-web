@@ -6,14 +6,6 @@
                     <div class="row  gutter-md">
                         <div class="col">
                             <q-input
-                                v-model="sFullname"
-                                type="text"
-                                clearable
-                                float-label="ค้นหาจากรายชื่อ"
-                            />
-                        </div>
-                        <div class="col">
-                            <q-input
                                 v-model="sSubDistrict"
                                 type="text"
                                 clearable
@@ -48,14 +40,14 @@
                                 color="positive"
                                 outline
                             >
-                                <q-icon name="add" /> เพิ่มผู้ใช้
+                                <q-icon name="add" /> เพิ่มอุปกรณ์
                             </q-btn>
                             &nbsp;
                             <q-btn
                                 color="negative"
                                 outline
                             >
-                                <q-icon name="clear" /> ลบผู้ใช้
+                                <q-icon name="clear" /> ลบอุปกรณ์
                             </q-btn>
                         </div>
 
@@ -82,7 +74,6 @@
 export default {
     data () {
         return {
-            sFullname: '',
             sSubDistrict: '',
             sDistrict: '',
             filter: '',
@@ -131,9 +122,6 @@ export default {
         }
     },
     watch: {
-        'sFullname': function () {
-            this.searchDataTable(this.sFullname)
-        },
         'sSubDistrict': function () {
             this.searchDataTable(this.sSubDistrict)
         },
@@ -150,6 +138,13 @@ export default {
     methods: {
         searchDataTable (keyword) {
             this.filter = keyword
+            // console.log(keyword);
+            // if (keyword != '') {
+            //     this.dataTemp = this.tableData
+            //     this.tableData = this.tableData.filter(data => String(data[`${mode}`]) == String(keyword))
+            // } else {
+            //     this.generateDataTable()
+            // }
         },
         generateDataTable () {
             var data = this.tableData
@@ -157,15 +152,16 @@ export default {
             for (var i = 2; i< 939; i++) {
                 var num = Math.floor((Math.random() * 999999) + 100000)
                 data.push({
-                    id: 'U-'+num,
-                    fullname: 'NAME '+num,
+                    serialNo: 'SN-'+num,
                     address: '1000/'+Math.floor((Math.random() * 20) + 10),
                     subDistrict: subDistrict[Math.floor((Math.random() * 8) + 0)],
                     district: 'เมือง',
                     province: 'หนองบัวลำภู',
-                    username: 'username'+i,
-                    tel: '09' + Math.floor((Math.random() * 99999999) + 10000000),
-                    status: 'ใช้งาน'
+                    dateSetup: `2019/${Math.floor((Math.random() * 12) + 1)}/` + Math.floor((Math.random() * 20) + 10),
+                    serialNoPump: 'SNP-'+num,
+                    serialNoInverter: 'SNIVT-' + num,
+                    admin: 'admin'+i,
+                    adminTel: '09' + Math.floor((Math.random() * 99999999) + 10000000)
                 })
             }
         }
@@ -174,16 +170,9 @@ export default {
 const initColumn = () => {
     return [
         {
-            field: 'id',
-            name: 'id',
-            label: 'id',
-            align: 'left',
-            sortable: true
-        },
-        {
-            field: 'fullname',
-            name: 'fullname',
-            label: 'fullname',
+            field: 'serialNo',
+            name: 'serialNo',
+            label: 'serialNo',
             align: 'left',
             sortable: true
         },
@@ -216,39 +205,71 @@ const initColumn = () => {
             sortable: true
         },
         {
-            field: 'tel',
-            name: 'tel',
-            label: 'tel',
+            field: 'dateSetup',
+            name: 'dateSetup',
+            label: 'dateSetup',
             align: 'left',
             sortable: true
         },
         {
-            field: 'username',
-            name: 'username',
-            label: 'username',
+            field: 'serialNoPump',
+            name: 'serialNoPump',
+            required: true,
+            label: 'serialNoPump',
             align: 'left',
             sortable: true
         },
         {
-            field: 'status',
-            name: 'status',
-            label: 'status',
+            field: 'serialNoInverter',
+            name: 'serialNoInverter',
+            label: 'serialNoInverter',
+            align: 'left',
+            sortable: true
+        },
+        {
+            field: 'admin',
+            name: 'admin',
+            label: 'admin',
+            align: 'left',
+            sortable: true
+        },
+        {
+            field: 'adminTel',
+            name: 'adminTel',
+            label: 'adminTel',
             align: 'left',
             sortable: true
         }
     ]
 }
+// const initData = () => {
+//     return [
+//         {
+//             serialNo: 'SN0001',
+//             address: '1000/1',
+//             subDistrict: 'บ้านพร้าว',
+//             district: 'เมือง',
+//             province: 'หนองบัวลำภู',
+//             dateSetup: '2019/05/23',
+//             serialNoPump: 'SNP0001',
+//             serialNoInverter: 'SNIVT0001',
+//             admin: 'admin001',
+//             adminTel: '0900000001'
+//         }
+//     ]
+// }
 const initVisibleColumns = () => {
     return [
-        'id',
-        'fullname',
+        'serialNo',
         'address',
         'subDistrict',
         'district',
         'province',
-        'tel',
-        'username',
-        'status'
+        'dateSetup',
+        'serialNoPump',
+        'serialNoInverter',
+        'admin',
+        'adminTel'
     ]
 }
 </script>

@@ -1,28 +1,8 @@
 <template>
     <div>
         <q-list>
-            <q-collapsible icon="assignment" label="กรองข้อมูลรายงาน" v-model="seacrhCollapsiblePanel">
+            <q-collapsible icon="assignment" label="กรองข้อมูลรายงานข้อมูลไฟฟ้า" v-model="seacrhCollapsiblePanel">
                 <div>
-                    <q-field
-                        icon="find_in_page"
-                        helper="ประเภทข้อมูลรายงาน"
-                    >
-                         <q-select
-                            v-model="search.reportType"
-                            :options="reportTypeOptions"
-                        />
-                    </q-field>
-
-                    <q-field
-                        icon="find_in_page"
-                        helper="รายการปั้มน้ำ"
-                    >
-                         <q-select
-                            v-model="search.SolarPump"
-                            :options="SolarPumpOptions"
-                        />
-                    </q-field>
-
                     <div class="row gutter-lg">
                         <div class="col">
                             <q-field
@@ -42,6 +22,29 @@
                             </q-field>
                         </div>
                     </div>
+
+                    <div v-if="isSearchDate">
+                        <q-field
+                            icon="find_in_page"
+                            helper="ประเภทข้อมูลรายงาน"
+                        >
+                            <q-select
+                                v-model="search.reportType"
+                                :options="reportTypeOptions"
+                            />
+                        </q-field>
+
+                        <q-field
+                            icon="find_in_page"
+                            helper="รายการปั้มน้ำ"
+                        >
+                            <q-select
+                                v-model="search.SolarPump"
+                                :options="SolarPumpOptions"
+                            />
+                        </q-field>
+                    </div>
+
                     <div align="right">
                         <q-btn
                             color="primary"
@@ -71,11 +74,13 @@
     </div>
 </template>
 <script>
+/* eslint-disable no-unused-vars */
 import * as convert from '../untilities/convertor'
 import Chart from 'chart.js'
 export default {
     data () {
         return {
+            isSearchDate: false,
             search: initData(),
             seacrhCollapsiblePanel: true,
             reportTypeOptions: this.$store.state.reportType,
@@ -95,21 +100,11 @@ export default {
                 date_start: convert.convertDateTime(this.search.date_start),
                 date_end: convert.convertDateTime(this.search.date_end)
             }
-            this.$store.dispatch('GetReportData', { search: this.search, date}).then(async (response) => {
-                if (response) {
-                    var data = response.data
-                    // this.option.data.datasets = []
-                    // for (var i in data) {
-                    //     this.option.data.datasets.push({
-                    //         data: data[i].val.DC_Amp,
-                    //         label: data[i].bucket,
-                    //         borderColor: '#6E7EF5',
-                    //         fill: false
-                    //     })
-                    // }
-                    await this.createChart()
-                    console.log(this.option.data.datasets);
-                }
+            console.log('data', date)
+            this.$store.dispatch('GetReportData', date).then(async (response) => {
+                console.log(response);
+                this.isSearchDate = true
+                this.createChart()
             })
         },
         validateDateStartData () {
@@ -130,6 +125,7 @@ export default {
 const initChartOption = () => {
     return {
         type: 'line',
+        responsive: true,
         data: {
             labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
             datasets: [
