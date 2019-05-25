@@ -176,63 +176,63 @@ const initColumn = () => {
         {
             field: 'id',
             name: 'id',
-            label: 'id',
+            label: 'ไอดี',
             align: 'left',
             sortable: true
         },
         {
             field: 'fullname',
             name: 'fullname',
-            label: 'fullname',
+            label: 'ชื่อ - นามสกุล',
             align: 'left',
             sortable: true
         },
         {
             field: 'address',
             name: 'address',
-            label: 'address',
+            label: 'ที่อยู่',
             align: 'left',
             sortable: true
         },
         {
             field: 'subDistrict',
             name: 'subDistrict',
-            label: 'subDistrict',
+            label: 'ตำบล',
             align: 'left',
             sortable: true
         },
         {
             field: 'district',
             name: 'district',
-            label: 'district',
+            label: 'อำเภอ',
             align: 'left',
             sortable: true
         },
         {
             field: 'province',
             name: 'province',
-            label: 'province',
+            label: 'จังหวัด',
             align: 'left',
             sortable: true
         },
         {
             field: 'tel',
             name: 'tel',
-            label: 'tel',
+            label: 'เบอร์โทร.',
             align: 'left',
             sortable: true
         },
         {
             field: 'username',
             name: 'username',
-            label: 'username',
+            label: 'ชื่อผู้ใช้งาน',
             align: 'left',
             sortable: true
         },
         {
             field: 'status',
             name: 'status',
-            label: 'status',
+            label: 'สถานะ',
             align: 'left',
             sortable: true
         }

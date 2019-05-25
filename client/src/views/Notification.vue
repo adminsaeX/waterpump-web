@@ -156,56 +156,56 @@ const initColumn = () => {
         {
             field: 'serialNo',
             name: 'serialNo',
-            label: 'serialNo',
+            label: 'Serial',
             align: 'left',
             sortable: true
         },
         {
             field: 'address',
             name: 'address',
-            label: 'address',
+            label: 'ที่อยู่',
             align: 'left',
             sortable: true
         },
         {
             field: 'subDistrict',
             name: 'subDistrict',
-            label: 'subDistrict',
+            label: 'ตำบล',
             align: 'left',
             sortable: true
         },
         {
             field: 'district',
             name: 'district',
-            label: 'district',
+            label: 'อำเภอ',
             align: 'left',
             sortable: true
         },
         {
             field: 'province',
             name: 'province',
-            label: 'province',
+            label: 'จังหวัด',
             align: 'left',
             sortable: true
         },
         {
             field: 'admin',
             name: 'admin',
-            label: 'admin',
+            label: 'ผู้ดูแล',
             align: 'left',
             sortable: true
         },
         {
             field: 'dateNoti',
             name: 'dateNoti',
-            label: 'dateNoti',
+            label: 'วันที่แจ้งเตือน',
             align: 'left',
             sortable: true
         },
         {
             field: 'notiNote',
             name: 'notiNote',
-            label: 'notiNote',
+            label: 'รายละเอียดแจ้งเตือน',
             align: 'left',
             sortable: true
         }

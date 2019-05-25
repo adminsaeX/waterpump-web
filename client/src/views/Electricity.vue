@@ -5,35 +5,50 @@
                 <div>
                     <div class="row gutter-lg">
                         <div class="col">
-                            <q-field
-                                icon="event"
-                                helper="วันเริ่มต้น"
-                            >
-                                <q-datetime v-model="search.date_start" @change="validateDateStartData" type="date" />
-                            </q-field>
-
+                            <q-option-group
+                                color="secondary"
+                                type="radio"
+                                inline
+                                v-model="group"
+                                :options="[
+                                    { label: 'รายปี', value: 0 },
+                                    { label: 'รายเดือน', value: 1 },
+                                    { label: 'รายสัปดาห์', value: 2 }
+                                ]"
+                            />
                         </div>
                         <div class="col">
                             <q-field
+                                v-if="group === 0"
                                 icon="event"
-                                helper="วันสิ้นสุด"
+                                helper="วันเริ่มต้น"
                             >
-                                <q-datetime v-model="search.date_end" @change="validateDateEndData" type="date" />
+                                <q-select
+                                    v-model="search.year"
+                                    :options="optionYear"
+                                />
+                            </q-field>
+                            <q-field
+                                v-if="group === 1"
+                                icon="event"
+                                helper="วันเริ่มต้น"
+                            >
+                                <q-select
+                                    v-model="search.month"
+                                    :options="optionThMonth"
+                                />
+                            </q-field>
+                            <q-field
+                                v-if="group === 2"
+                                icon="event"
+                                helper="วันเริ่มต้น"
+                            >
+                                <q-datetime v-model="search.date" type="date" />
                             </q-field>
                         </div>
                     </div>
 
-                    <div v-if="isSearchDate">
-                        <q-field
-                            icon="find_in_page"
-                            helper="ประเภทข้อมูลรายงาน"
-                        >
-                            <q-select
-                                v-model="search.reportType"
-                                :options="reportTypeOptions"
-                            />
-                        </q-field>
-
+                    <div>
                         <q-field
                             icon="find_in_page"
                             helper="รายการปั้มน้ำ"
@@ -69,58 +84,94 @@
         </q-list>
         <br><hr><br>
         <div>
-            <canvas id="reportChart"></canvas>
+            <span>กราฟปริมาณน้ำ</span>
+            <canvas id="chartWaterQuatity"></canvas>
+        </div>
+        <br>
+        <div>
+            <span>กราฟอัตราการไหล</span>
+            <canvas id="chartWaterFlow"></canvas>
+        </div>
+        <br>
+        <div>
+            <template>
+                <q-table
+                    title="ตารางข้อมูลดิบ"
+                    :data="tableData"
+                    :columns="columns"
+                    :filter="filter"
+                    row-key="serialNo"
+                    :pagination.sync="pagination"
+                    :visible-columns="visibleColumns"
+                />
+            </template>
         </div>
     </div>
 </template>
 <script>
 /* eslint-disable no-unused-vars */
 import * as convert from '../untilities/convertor'
+import * as data from '../untilities/data'
 import Chart from 'chart.js'
 export default {
     data () {
         return {
-            isSearchDate: false,
             search: initData(),
             seacrhCollapsiblePanel: true,
-            reportTypeOptions: this.$store.state.reportType,
-            SolarPumpOptions: this.$store.state.solarPump,
-            option: initChartOption()
+            option: initChartOption(),
+            group: 0,
+            optionThMonth: data.getListMonthTh(),
+            columns: initColumn(),
+            tableData: [],
+            visibleColumns: initVisibleColumns(),
+            pagination: {
+                sortBy: 'serialNo',
+                descending: false,
+                page: 1,
+                rowsPerPage: 5
+            }
+        }
+    },
+    computed: {
+        SolarPumpOptions () {
+            return this.$store.state.solarPump
+        },
+        optionYear () {
+            return this.$store.state.optionYear
         }
     },
     created() {
+        this.generateDataTable()
     },
     methods: {
+        generateDataTable () {
+            var data = this.tableData
+            var subDistrict = ['บ้านพร้าว', 'หนองบัว', 'หนองภัยศูนย์', 'โพธิ์ชัย', 'หนองสวรรค์', 'หัวนา', 'บ้านขาม', 'นามะเฟือง']
+            for (var i = 2; i< 939; i++) {
+                var numVoltage = Math.floor((Math.random() * 220) + 100)
+                data.push({
+                    dateTime: `2019/${Math.floor((Math.random() * 12) + 1)}/` + Math.floor((Math.random() * 20) + 10),
+                    Voltage: numVoltage,
+                    electricCurrent: Math.floor((Math.random() * 9999) + 1000),
+                    electricPower: Math.floor((Math.random() * 9999) + 1000),
+                    electricalEnergy: Math.floor((Math.random() * 9999) + 1000),
+                })
+            }
+        },
         createChart () {
-            var ctx = document.getElementById('reportChart')
-            new Chart(ctx, this.option)
+            var chartWaterQuatity = document.getElementById('chartWaterQuatity')
+            new Chart(chartWaterQuatity, this.option)
+           
+            var chartWaterFlow = document.getElementById('chartWaterFlow')
+            new Chart(chartWaterFlow, this.option)
         },
         loadReportData () {
-            var date = {
-                date_start: convert.convertDateTime(this.search.date_start),
-                date_end: convert.convertDateTime(this.search.date_end)
-            }
-            console.log('data', date)
-            this.$store.dispatch('GetReportData', date).then(async (response) => {
-                console.log(response);
-                this.isSearchDate = true
-                this.createChart()
-            })
-        },
-        validateDateStartData () {
-            if (this.search.date_start > this.search.date_end) {
-                this.search.date_end = this.search.date_start
-            }
-        },
-        validateDateEndData () {
-            if (this.search.date_end < this.search.date_start) {
-                this.search.date_start = this.search.date_end
-            }
+            this.createChart()
         },
         clearSearchData () {
             this.search = initData()
         }
-    },
+    }
 }
 const initChartOption = () => {
     return {
@@ -156,10 +207,61 @@ const initChartOption = () => {
 }
 const initData = () => {
     return {
-        date_start: new Date(),
-        date_end: new Date(),
-        reportType: 'DC_Amp',
+        year: getThYear(new Date().getFullYear()),
+        month: new Date().getMonth() + 1,
+        date: new Date(),
         SolarPump: 'SolarPumping@Solarpump01'
     }
+}
+const getThYear = (year) => {
+    return year + 543
+}
+const initVisibleColumns = () => {
+    return [
+        'dateTime',
+        'Voltage',
+        'electricCurrent',
+        'electricPower',
+        'electricalEnergy',
+    ]
+}
+const initColumn = () => {
+    return [
+        {
+            field: 'dateTime',
+            name: 'dateTime',
+            label: 'วันเวลา',
+            align: 'left',
+            sortable: true
+        },
+        {
+            field: 'Voltage',
+            name: 'Voltage',
+            label: 'แรงดันไฟฟ้า',
+            align: 'left',
+            sortable: true
+        },
+        {
+            field: 'electricCurrent',
+            name: 'electricCurrent',
+            label: 'กระแสไฟฟ้า',
+            align: 'left',
+            sortable: true
+        },
+        {
+            field: 'electricPower',
+            name: 'electricPower',
+            label: 'กำลังไฟฟ้า',
+            align: 'left',
+            sortable: true
+        },
+        {
+            field: 'electricalEnergy',
+            name: 'electricalEnergy',
+            label: 'ฟลังงานไฟฟ้า',
+            align: 'left',
+            sortable: true
+        }
+    ]
 }
 </script>

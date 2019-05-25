@@ -172,71 +172,70 @@ const initColumn = () => {
         {
             field: 'serialNo',
             name: 'serialNo',
-            label: 'serialNo',
+            label: 'Serial No.',
             align: 'left',
             sortable: true
         },
         {
             field: 'address',
             name: 'address',
-            label: 'address',
+            label: 'ที่อยู่',
             align: 'left',
             sortable: true
         },
         {
             field: 'subDistrict',
             name: 'subDistrict',
-            label: 'subDistrict',
+            label: 'ตำบล',
             align: 'left',
             sortable: true
         },
         {
             field: 'district',
             name: 'district',
-            label: 'district',
+            label: 'อำเภอ',
             align: 'left',
             sortable: true
         },
         {
             field: 'province',
             name: 'province',
-            label: 'province',
+            label: 'จังหวัด',
             align: 'left',
             sortable: true
         },
         {
             field: 'dateSetup',
             name: 'dateSetup',
-            label: 'dateSetup',
+            label: 'วันที่ติดตั้ง',
             align: 'left',
             sortable: true
         },
         {
             field: 'serialNoPump',
             name: 'serialNoPump',
-            required: true,
-            label: 'serialNoPump',
+            label: 'Serial No. Pump',
             align: 'left',
             sortable: true
         },
         {
             field: 'serialNoInverter',
             name: 'serialNoInverter',
-            label: 'serialNoInverter',
+            label: 'Serial No. Inverter',
             align: 'left',
             sortable: true
         },
         {
             field: 'admin',
             name: 'admin',
-            label: 'admin',
+            label: 'ผู้ดูแล',
             align: 'left',
             sortable: true
         },
         {
             field: 'adminTel',
             name: 'adminTel',
-            label: 'adminTel',
+            label: 'เบอร์โทร.ผู้ดูแล',
             align: 'left',
             sortable: true
         }

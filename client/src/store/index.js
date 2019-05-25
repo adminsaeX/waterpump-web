@@ -39,6 +39,19 @@ const initialState = () => {
       { value: 'SolarPumping@Solarpump08', label: 'SolarPumping@Solarpump08' },
       { value: 'SolarPumping@Solarpump09', label: 'SolarPumping@Solarpump09' },
       { value: 'SolarPumping@Solarpump10', label: 'SolarPumping@Solarpump10' }
+    ],
+    optionYear: [
+      { value: 2562, label: '2562' },
+      { value: 2561, label: '2561' },
+      { value: 2560, label: '2560' },
+      { value: 2559, label: '2559' },
+      { value: 2558, label: '2558' },
+      { value: 2557, label: '2557' },
+      { value: 2556, label: '2556' },
+      { value: 2555, label: '2555' },
+      { value: 2554, label: '2554' },
+      { value: 2553, label: '2553' },
+      { value: 2552, label: '2552' }
     ]
   }
 }
