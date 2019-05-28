@@ -132,6 +132,9 @@ export default {
             }
         }
     },
+    mounted() {
+        this.createChart()
+    },
     computed: {
         SolarPumpOptions () {
             return this.$store.state.solarPump

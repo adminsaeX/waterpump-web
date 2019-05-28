@@ -9,6 +9,7 @@ import WaterFlow from './views/WaterFlow.vue'
 import PumpingSystem from './views/PumpingSystem.vue'
 import Notification from './views/Notification.vue'
 import Overview from './views/Overview.vue'
+import PIDiagrame from './views/PIDiagrame.vue'
 import TempAndHumidity from './views/TempAndHumidity.vue'
 
 Vue.use(Router)
@@ -19,8 +20,10 @@ export default new Router({
       path: '/',
       component: DefaultLayout,
       children: [
-        { path: '/', name: 'Home', component: Home },
+        { path: '/', name: 'mian', component: Home },
         { path: '/Home', name: 'Home', component: Home },
+        { path: '/PIDiagrame/:serialNo', name: 'PIDiagrame', component: PIDiagrame },
+        { path: '/PIDiagrame', name: 'PIDiagrame', component: PIDiagrame },
         { path: '/Electricity', name: 'Electricity', component: Electricity },
         { path: '/ManageUsers', name: 'ManageUsers', component: ManageUsers },
         { path: '/WaterFlow', name: 'WaterFlow', component: WaterFlow },

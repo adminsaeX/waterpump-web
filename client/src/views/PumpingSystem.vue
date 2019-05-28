@@ -65,7 +65,23 @@
                 row-key="serialNo"
                 :pagination.sync="pagination"
                 :visible-columns="visibleColumns"
-            />
+            >
+               <q-tr slot="body" slot-scope="props" :props="props">
+                   <q-td align="center">
+                       <q-checkbox v-model="serialNoSelected" :val="props.row.serialNo" />
+                   </q-td>
+                    <q-td><u style="cursor: pointer" @click="$router.push(`/PIDiagrame/${props.row.serialNo}`)" target="_blank" rel="noopener noreferrer">{{ (props.row.serialNo) }}</u></q-td>
+                    <q-td>{{ props.row.address }}</q-td>
+                    <q-td>{{ (props.row.subDistrict) }}</q-td>
+                    <q-td>{{ (props.row.district) }}</q-td>
+                    <q-td>{{ (props.row.province) }}</q-td>
+                    <q-td>{{ (props.row.dateSetup) }}</q-td>
+                    <q-td>{{ (props.row.serialNoPump) }}</q-td>
+                    <q-td>{{ (props.row.serialNoInverter) }}</q-td>
+                    <q-td>{{ (props.row.admin) }}</q-td>
+                    <q-td>{{ (props.row.adminTel) }}</q-td>
+                </q-tr>
+            </q-table>
         </template>
     </q-layout>
 </template>
@@ -74,6 +90,7 @@
 export default {
     data () {
         return {
+            serialNoSelected: [],
             sSubDistrict: '',
             sDistrict: '',
             filter: '',
@@ -169,6 +186,13 @@ export default {
 }
 const initColumn = () => {
     return [
+        {
+            field: 'serialNo',
+            name: 'serialNo',
+            label: 'เลือก',
+            align: 'left',
+            sortable: true
+        },
         {
             field: 'serialNo',
             name: 'serialNo',

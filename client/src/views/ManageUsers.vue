@@ -47,6 +47,7 @@
                             <q-btn
                                 color="positive"
                                 outline
+                                @click="openedUserModal = true"
                             >
                                 <q-icon name="add" /> เพิ่มผู้ใช้
                             </q-btn>
@@ -70,10 +71,163 @@
                 :data="tableData"
                 :columns="columns"
                 :filter="filter"
-                row-key="serialNo"
+                row-key="id"
                 :pagination.sync="pagination"
                 :visible-columns="visibleColumns"
-            />
+            >
+                <q-tr slot="body" slot-scope="props" :props="props">
+                    <q-td align="center">
+                        <q-checkbox v-model="idSelected" :val="props.row.id" />
+                    </q-td>
+                    <q-td>{{ props.row.id }}</q-td>
+                    <q-td>{{ (props.row.fullname) }}</q-td>
+                    <q-td>{{ (props.row.address) }}</q-td>
+                    <q-td>{{ (props.row.subDistrict) }}</q-td>
+                    <q-td>{{ (props.row.district) }}</q-td>
+                    <q-td>{{ (props.row.province) }}</q-td>
+                    <q-td>{{ (props.row.username) }}</q-td>
+                    <q-td>{{ (props.row.tel) }}</q-td>
+                    <q-td>{{ (props.row.status) }}</q-td>
+                </q-tr>
+            </q-table>
+        </template>
+        <template>
+            <q-modal v-model="openedUserModal" no-backdrop-dismiss no-esc-dismiss :content-css="{minWidth: '80vw', minHeight: '80vh'}">
+                <div footer-style="{fontSize: '24px', fontWeight: 'bold'}">
+                    <q-toolbar slot="header">
+                        <q-toolbar-title>
+                            ลงทะเบียนผู้ใช้งาน
+                        </q-toolbar-title>
+                        <q-btn
+                            color="negative"
+                            round
+                            icon="clear"
+                            dense
+                            @click="openedUserModal = false"
+                        />
+                    </q-toolbar>
+                    <div class="layout-padding">
+                        <q-field
+                            label="Username"
+                        >
+                            <q-input
+                                v-model="form.username"
+                                placeholder="Username"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="Password"
+                        >
+                            <q-input
+                                v-model="form.password"
+                                placeholder="Password"
+                                type="password"
+                            />
+                        </q-field>
+                        <q-field
+                            label="Re-Password"
+                        >
+                            <q-input
+                                name="lastname"
+                                v-model="form.password"
+                                placeholder="Re-Password"
+                                type="password"
+                            />
+                        </q-field>
+                        <q-field
+                            label="ชื่อ - นามสกุล"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="ชื่อ - นามสกุล"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="เบอร์โทร."
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="เบอร์โทร."
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="ที่อยู่"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="ที่อยู่"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="ตำบล"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="ตำบล"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="อำเภอ"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="อำเภอ"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="จังหวัด"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="จังหวัด"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="รหัสไปรษณีย์"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="รหัสไปรษณีย์"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="ประเทศ"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="ประเทศ"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="ระดับสิทธิผู้ใช้"
+                        >
+                            <q-select
+                                v-model="form"
+                                placeholder="ระดับสิทธิผู้ใช้"
+                                :options="optionsUserRule"
+                            />
+                        </q-field>
+                        <h5>เมนู</h5>
+                        <div class="row gutter-xs">
+                            <div class="col-8">
+                                <q-btn color="green" icon="add" @click="openedUserModal = false">&nbsp;เพิ่มผู้ใช้งาน</q-btn>
+                            </div>
+                            <div class="col-4 text-right">
+                                <q-btn color="red" icon="close" @click="openedUserModal = false">&nbsp;ยกเลิก</q-btn>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </q-modal>
         </template>
     </q-layout>
 </template>
@@ -82,6 +236,9 @@
 export default {
     data () {
         return {
+            form: [],
+            openedUserModal: false,
+            idSelected: [],
             sFullname: '',
             sSubDistrict: '',
             sDistrict: '',
@@ -98,6 +255,11 @@ export default {
                 page: 1,
                 rowsPerPage: 10
             },
+            optionsUserRule: [
+                { value: 0, label: 'ผู้ใช้' },
+                { value: 1, label: 'ผู้ดูแล' },
+                { value: 2, label: 'ช่าง' },
+            ],
             selectOptions: [
                 {
                     label: '5',
@@ -169,10 +331,16 @@ export default {
                 })
             }
         }
-    },
+    }
 }
 const initColumn = () => {
     return [
+        {
+            name: 'id',
+            label: 'เลือก',
+            align: 'left',
+            sortable: true
+        },
         {
             field: 'id',
             name: 'id',
@@ -240,6 +408,7 @@ const initColumn = () => {
 }
 const initVisibleColumns = () => {
     return [
+        'selected',
         'id',
         'fullname',
         'address',

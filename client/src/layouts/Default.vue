@@ -59,6 +59,13 @@
           </q-item-main>
         </q-item>
 
+        <q-item clickable to="/PIDiagrame">
+          <q-item-side icon="timeline"></q-item-side>
+          <q-item-main>
+            <q-item-tile label>PI - diagrame</q-item-tile>
+          </q-item-main>
+        </q-item>
+
         <q-item clickable to="/Notification">
           <q-item-side icon="notification_important"></q-item-side>
           <q-item-main>

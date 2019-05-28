@@ -1,5 +1,5 @@
 <template>
-  <q-layout class="">
+  <q-layout>
     <template>
       <div class="row gutter-xs">
         <div class="col-lg-8 col-sm-12 col-xs-12">
@@ -56,7 +56,7 @@
             <q-card-title>พลังงานไฟฟ้า</q-card-title>
             <q-card-separator/>
             <q-card-main>
-              <div align="right">
+              <div align="center">
                 <h4>202.8 KWh.</h4>
               </div>
             </q-card-main>
@@ -67,7 +67,7 @@
             <q-card-title>ปริมาณน้ำ</q-card-title>
             <q-card-separator/>
             <q-card-main>
-              <div align="right">
+              <div align="center">
                 <h4>5,8312.94 ลิตร</h4>
               </div>
             </q-card-main>
@@ -78,7 +78,7 @@
             <q-card-title>ค่าเฉลี่ยอุณหภูมิ และความชื้น</q-card-title>
             <q-card-separator/>
             <q-card-main>
-              <div class="row" align="right">
+              <div class="row" align="center">
                 <div class="col">
                   <h4>202.8 °C</h4>
                 </div>

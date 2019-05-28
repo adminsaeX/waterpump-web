@@ -140,6 +140,9 @@ export default {
             return this.$store.state.optionYear
         }
     },
+    mounted() {
+        this.createChart()
+    },
     created() {
         this.generateDataTable()
     },
