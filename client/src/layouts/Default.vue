@@ -145,4 +145,7 @@ export default {
   q-toolbar {
     background-color: #87C5D0;
   }
+  hr {
+    border: 1px solid #87C5D0;
+  }
 </style>

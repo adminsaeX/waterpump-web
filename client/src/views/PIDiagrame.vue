@@ -1,5 +1,5 @@
 <template>
     <div>
-        <h1>PIDiagrame</h1>
+        <img src="../assets/pi-diagram.png" alt="pi-diagram" width="100%">
     </div>
 </template>

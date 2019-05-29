@@ -39,6 +39,7 @@
                             <q-btn
                                 color="positive"
                                 outline
+                                @click="openedPumpModal = true" 
                             >
                                 <q-icon name="add" /> เพิ่มอุปกรณ์
                             </q-btn>
@@ -83,6 +84,239 @@
                 </q-tr>
             </q-table>
         </template>
+        <template>
+            <q-modal v-model="openedPumpModal" no-backdrop-dismiss no-esc-dismiss :content-css="{minWidth: '80vw', minHeight: '80vh'}">
+                <div footer-style="{fontSize: '24px', fontWeight: 'bold'}">
+                    <q-toolbar slot="header">
+                        <q-toolbar-title>
+                            เพิ่มอุปกรณ์
+                        </q-toolbar-title>
+                        <q-btn
+                            color="negative"
+                            round
+                            icon="clear"
+                            dense
+                            @click="openedPumpModal = false"
+                        />
+                    </q-toolbar>
+                    <div class="layout-padding">
+                        <span>ลงทะเบียนอุปกรณ์</span><br>
+                        <q-field
+                            label="Device Id"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="Device Id"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="Project Id"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="Project Id"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="Device Description"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="Device Description"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="Device Credentials"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="Device Credentials"
+                                type="text"
+                            />
+                        </q-field>
+                        <br>
+                        <div class="row">
+                            <div class="col-6"></div>
+                            <div class="col-6">
+                                <q-btn color="green" icon="autorenew">&nbsp;Generate Random Credentials</q-btn>
+                            </div>
+                        </div>
+                        <br>
+                        <q-field
+                            label="Serial Number Inverter"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="Serial Number Inverter"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="Serial Number Pump"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="Serial Number Pump"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="สถานที่ติดตั้ง ชื่อกลุ่ม"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="ชื่อกลุ่ม"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="ที่อยู่"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="ที่อยู่"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="ตำบล"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="ตำบล"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="อำเภอ"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="อำเภอ"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="จังหวัด"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="จังหวัด"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="รหัสไปรษณีย์"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="รหัสไปรษณีย์"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="ประเทศ"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="ประเทศ"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="พิกัด UTM"
+                        >
+                            <q-input
+                                v-model="form"
+                                type="text"
+                            />
+                            <q-input
+                                v-model="form"
+                                type="text"
+                            />
+                        </q-field>
+
+                        <br><hr><br>
+                        <span>ผู้ดูแล</span><br>
+                        <q-field
+                            label="ชื่อ - นามสกุล"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="ชื่อ - นามสกุล"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="ที่อยู่"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="ที่อยู่"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="ตำบล"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="ตำบล"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="อำเภอ"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="อำเภอ"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="จังหวัด"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="จังหวัด"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="รหัสไปรษณีย์"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="รหัสไปรษณีย์"
+                                type="text"
+                            />
+                        </q-field>
+                        <q-field
+                            label="ประเทศ"
+                        >
+                            <q-input
+                                v-model="form"
+                                placeholder="ประเทศ"
+                                type="text"
+                            />
+                        </q-field>
+                        <br>
+                        <div class="row gutter-xs">
+                            <div class="col-8">
+                                <q-btn color="green" icon="add" @click="openedPumpModal = false">&nbsp;เพิ่มอุปกรณ์</q-btn>
+                            </div>
+                            <div class="col-4 text-right">
+                                <q-btn color="red" icon="close" @click="openedPumpModal = false">&nbsp;ยกเลิก</q-btn>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </q-modal>
+        </template>
     </q-layout>
 </template>
 <script>
@@ -90,6 +324,8 @@
 export default {
     data () {
         return {
+            openedPumpModal: false,
+            form: [],
             serialNoSelected: [],
             sSubDistrict: '',
             sDistrict: '',

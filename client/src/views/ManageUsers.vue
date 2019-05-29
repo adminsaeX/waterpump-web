@@ -216,7 +216,7 @@
                                 :options="optionsUserRule"
                             />
                         </q-field>
-                        <h5>เมนู</h5>
+                        <br>
                         <div class="row gutter-xs">
                             <div class="col-8">
                                 <q-btn color="green" icon="add" @click="openedUserModal = false">&nbsp;เพิ่มผู้ใช้งาน</q-btn>
