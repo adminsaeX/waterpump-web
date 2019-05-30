@@ -62,6 +62,22 @@
 
                     <div align="right">
                         <q-btn
+                            color="green"
+                            icon="save"
+                            outline
+                        >
+                            &nbsp;รายงาน PDF
+                        </q-btn>
+                        &nbsp;
+                        <q-btn
+                            color="green"
+                            icon="save"
+                            outline
+                        >
+                            &nbsp;ไฟล์ CSV
+                        </q-btn>
+                        &nbsp;
+                        <q-btn
                             color="primary"
                             icon="autorenew"
                             outline
