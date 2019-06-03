@@ -13,7 +13,7 @@
                                 :options="[
                                     { label: 'รายปี', value: 0 },
                                     { label: 'รายเดือน', value: 1 },
-                                    { label: 'รายสัปดาห์', value: 2 }
+                                    { label: 'รายวัน', value: 2 }
                                 ]"
                             />
                         </div>
@@ -21,7 +21,7 @@
                             <q-field
                                 v-if="group === 0"
                                 icon="event"
-                                helper="วันเริ่มต้น"
+                                helper="ปี"
                             >
                                 <q-select
                                     v-model="search.year"
@@ -31,7 +31,7 @@
                             <q-field
                                 v-if="group === 1"
                                 icon="event"
-                                helper="วันเริ่มต้น"
+                                helper="เดือน"
                             >
                                 <q-select
                                     v-model="search.month"
@@ -41,7 +41,7 @@
                             <q-field
                                 v-if="group === 2"
                                 icon="event"
-                                helper="วันเริ่มต้น"
+                                helper="วัน"
                             >
                                 <q-datetime v-model="search.date" type="date" />
                             </q-field>
@@ -81,7 +81,7 @@
                             color="primary"
                             icon="autorenew"
                             outline
-                            @click="loadReportData"
+                            @click="generateDataTable"
                         >
                             &nbsp;ประมวลผล
                         </q-btn>
@@ -101,12 +101,22 @@
         <br><hr><br>
         <div>
             <span>กราฟปริมาณน้ำ</span>
-            <canvas id="chartWaterQuatity"></canvas>
+            <GChart
+                type="AreaChart"
+                :data="chartData"
+                :options="chartOptions"
+            />    
+            <!-- <canvas id="chartWaterQuatity"></canvas> -->
         </div>
         <br>
         <div>
             <span>กราฟอัตราการไหล</span>
-            <canvas id="chartWaterFlow"></canvas>
+            <GChart
+                type="AreaChart"
+                :data="chartData"
+                :options="chartOptions"
+            /> 
+            <!-- <canvas id="chartWaterFlow"></canvas> -->
         </div>
         <br>
         <div>
@@ -115,7 +125,6 @@
                     title="ตารางข้อมูลดิบ"
                     :data="tableData"
                     :columns="columns"
-                    :filter="filter"
                     row-key="serialNo"
                     :pagination.sync="pagination"
                     :visible-columns="visibleColumns"
@@ -128,13 +137,25 @@
 /* eslint-disable no-unused-vars */
 import * as convert from '../untilities/convertor'
 import * as data from '../untilities/data'
-import Chart from 'chart.js'
+// import Chart from 'chart.js'
+import { GChart } from 'vue-google-charts'
+
 export default {
+    components: {
+        GChart
+    },
     data () {
         return {
+            chartData: [],
+            chartOptions: {
+                chart: {
+                title: "Company Performance",
+                subtitle: "Sales, Expenses, and Profit: 2014-2017"
+                }
+            },
             search: initData(),
             seacrhCollapsiblePanel: true,
-            option: initChartOption(),
+            // option: initChartOption(),
             group: 0,
             optionThMonth: data.getListMonthTh(),
             columns: initColumn(),
@@ -157,73 +178,74 @@ export default {
         }
     },
     mounted() {
-        this.createChart()
+        // this.createChart()
     },
     created() {
         this.generateDataTable()
     },
     methods: {
         generateDataTable () {
-            var data = this.tableData
-            var subDistrict = ['บ้านพร้าว', 'หนองบัว', 'หนองภัยศูนย์', 'โพธิ์ชัย', 'หนองสวรรค์', 'หัวนา', 'บ้านขาม', 'นามะเฟือง']
-            for (var i = 2; i< 939; i++) {
+            this.tableData = []
+            this.chartData = [["dateTime", "Voltage", "electricCurrent", "electricPower", "electricalEnergy"]]
+            for (var i = 1; i< 14; i++) {
                 var numVoltage = Math.floor((Math.random() * 220) + 100)
-                data.push({
+                this.tableData.push({
                     dateTime: `2019/${Math.floor((Math.random() * 12) + 1)}/` + Math.floor((Math.random() * 20) + 10),
                     Voltage: numVoltage,
                     electricCurrent: Math.floor((Math.random() * 9999) + 1000),
                     electricPower: Math.floor((Math.random() * 9999) + 1000),
                     electricalEnergy: Math.floor((Math.random() * 9999) + 1000),
                 })
+                this.chartData.push([`2019/${Math.floor((Math.random() * 12) + 1)}/` + Math.floor((Math.random() * 20) + 10), numVoltage, Math.floor((Math.random() * 9999) + 1000), Math.floor((Math.random() * 9999) + 1000), Math.floor((Math.random() * 9999) + 1000)])
             }
         },
-        createChart () {
-            var chartWaterQuatity = document.getElementById('chartWaterQuatity')
-            new Chart(chartWaterQuatity, this.option)
+        // createChart () {
+        //     var chartWaterQuatity = document.getElementById('chartWaterQuatity')
+        //     new Chart(chartWaterQuatity, this.option)
            
-            var chartWaterFlow = document.getElementById('chartWaterFlow')
-            new Chart(chartWaterFlow, this.option)
-        },
-        loadReportData () {
-            this.createChart()
-        },
+        //     var chartWaterFlow = document.getElementById('chartWaterFlow')
+        //     new Chart(chartWaterFlow, this.option)
+        // },
+        // loadReportData () {
+        //     this.createChart()
+        // },
         clearSearchData () {
             this.search = initData()
         }
     }
 }
-const initChartOption = () => {
-    return {
-        type: 'line',
-        responsive: true,
-        data: {
-            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-            datasets: [
-                {
-                    label: 'Page A',
-                    data: [61, 122, 107, 73],
-                    borderColor: '#6E7EF5',
-                    fill: false
-                },
-                {
-                    label: 'Page B',
-                    data: [18, 170, 135, 92],
-                    borderColor: '#B277DE',
-                    fill: false
-                },
-                {
-                    label: 'Page C',
-                    data: [4, 111, 122, 55],
-                    borderColor: '#48DD31',
-                    fill: false
-                }
-            ]
-        },
-        options: {
-            responsive: true
-        }
-    }
-}
+// const initChartOption = () => {
+//     return {
+//         type: 'line',
+//         responsive: true,
+//         data: {
+//             labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+//             datasets: [
+//                 {
+//                     label: 'Page A',
+//                     data: [61, 122, 107, 73],
+//                     borderColor: '#6E7EF5',
+//                     fill: false
+//                 },
+//                 {
+//                     label: 'Page B',
+//                     data: [18, 170, 135, 92],
+//                     borderColor: '#B277DE',
+//                     fill: false
+//                 },
+//                 {
+//                     label: 'Page C',
+//                     data: [4, 111, 122, 55],
+//                     borderColor: '#48DD31',
+//                     fill: false
+//                 }
+//             ]
+//         },
+//         options: {
+//             responsive: true
+//         }
+//     }
+// }
 const initData = () => {
     return {
         year: getThYear(new Date().getFullYear()),

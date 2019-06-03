@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
 // import module
+require('dotenv').config()
 const winston = require('winston')
 const express = require('express')
 const path = require('path')
 const app = express()
-const PORT = 3000
+const PORT = process.env.PORT
 
 // server import
 const api = require('./api/index')
