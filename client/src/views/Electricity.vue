@@ -13,7 +13,7 @@
                                 :options="[
                                     { label: 'รายปี', value: 0 },
                                     { label: 'รายเดือน', value: 1 },
-                                    { label: 'รายสัปดาห์', value: 2 }
+                                    { label: 'รายวัน', value: 2 }
                                 ]"
                             />
                         </div>
