@@ -8,6 +8,7 @@ import ManageUsers from './views/ManageUsers.vue'
 import WaterFlow from './views/WaterFlow.vue'
 import PumpingSystem from './views/PumpingSystem.vue'
 import Notification from './views/Notification.vue'
+import AccountSetting from './views/AccountSetting.vue'
 import SystemNotification from './views/SystemNotification.vue'
 import Overview from './views/Overview.vue'
 import PIDiagrame from './views/PIDiagrame.vue'
@@ -25,6 +26,7 @@ export default new Router({
         { path: '/Home', name: 'Home', component: Home },
         { path: '/PIDiagrame/:serialNo', name: 'PIDiagrame', component: PIDiagrame },
         { path: '/PIDiagrame', name: 'PIDiagrame', component: PIDiagrame },
+        { path: '/AccountSetting', name: 'AccountSetting', component: AccountSetting },
         { path: '/Electricity', name: 'Electricity', component: Electricity },
         { path: '/ManageUsers', name: 'ManageUsers', component: ManageUsers },
         { path: '/WaterFlow', name: 'WaterFlow', component: WaterFlow },

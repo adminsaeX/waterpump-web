@@ -44,12 +44,12 @@
                 <span style="font-size: 20px;">Username</span><br>
                 <span>Status: <b style="color: green; font-size: 10px;">ONLINE&nbsp;&nbsp;<q-icon color="green" name="check_circle" /></b></span>
               </div>
-              <div class="col">
+              <div class="col" align="center">
                 <q-btn
-                  title="ตั้งค่าสบัญชีผู้ใช้"
+                  title="ตั้งค่าบัญชีผู้ใช้"
                   to="/AccountSetting"
                 >
-                  <q-icon name="settings" /><span v-if="this.$q.platform.is.desktop">ตั้งค่าสบัญชีผู้ใช้</span>
+                  <q-icon name="settings" /><span></span>
                 </q-btn>
               </div>
             </div>
@@ -82,7 +82,12 @@
         <q-item clickable to="/Notification">
           <q-item-side icon="notification_important"></q-item-side>
           <q-item-main>
-            <q-item-tile label>รายการแจ้งเตือน</q-item-tile>
+            <q-item-tile label>
+              รายการแจ้งเตือน
+              <q-chip color="warning" detail small icon="alarm">
+                <span>4</span>
+              </q-chip>
+            </q-item-tile>
           </q-item-main>
         </q-item>
 
@@ -121,7 +126,12 @@
          <q-item clickable to="/SystemNotification">
           <q-item-side icon="notification_important"></q-item-side>
           <q-item-main>
-            <q-item-tile label>ระบบแจ้งเตือน</q-item-tile>
+            <q-item-tile label>
+              ระบบแจ้งเตือน
+              <q-chip color="warning" detail small icon="alarm">
+                <span>10</span>
+              </q-chip>
+            </q-item-tile>
             <!-- <q-item-tile sublabel>Notify me about updates to apps or games that I downloaded</q-item-tile> -->
           </q-item-main>
         </q-item>

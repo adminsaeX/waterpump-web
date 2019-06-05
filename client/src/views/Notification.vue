@@ -2,7 +2,7 @@
     <q-layout>
         <template>
             <q-list>
-                <q-collapsible icon="assignment" label="กรองข้อมูลรายงานข้อมูลไฟฟ้า" v-model="collapsible">
+                <q-collapsible icon="assignment" label="กรองข้อมูลรายการแจ้งเตือน" v-model="collapsible">
                     <div class="row  gutter-md">
                         <div class="col">
                             <q-field
