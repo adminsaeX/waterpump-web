@@ -37,9 +37,22 @@
               <img src="../assets/logo.png">
             </q-item-tile>
           </q-item-side>
+
           <q-item-main>
-            <span style="font-size: 20px;">Username</span><br>
-            <span>Status: <b style="color: green; font-size: 12px;">ONLINE&nbsp;&nbsp;<q-icon color="green" name="check_circle" /></b></span>
+            <div class="row">
+              <div class="col">
+                <span style="font-size: 20px;">Username</span><br>
+                <span>Status: <b style="color: green; font-size: 10px;">ONLINE&nbsp;&nbsp;<q-icon color="green" name="check_circle" /></b></span>
+              </div>
+              <div class="col">
+                <q-btn
+                  title="ตั้งค่าสบัญชีผู้ใช้"
+                  to="/AccountSetting"
+                >
+                  <q-icon name="settings" /><span v-if="this.$q.platform.is.desktop">ตั้งค่าสบัญชีผู้ใช้</span>
+                </q-btn>
+              </div>
+            </div>
           </q-item-main>
         </q-item>
       </q-list>
@@ -101,6 +114,14 @@
           <q-item-side icon="filter_hdr"></q-item-side>
           <q-item-main>
             <q-item-tile label>อุณหภูมิและความชื้น</q-item-tile>
+            <!-- <q-item-tile sublabel>Notify me about updates to apps or games that I downloaded</q-item-tile> -->
+          </q-item-main>
+        </q-item>
+
+         <q-item clickable to="/SystemNotification">
+          <q-item-side icon="notification_important"></q-item-side>
+          <q-item-main>
+            <q-item-tile label>ระบบแจ้งเตือน</q-item-tile>
             <!-- <q-item-tile sublabel>Notify me about updates to apps or games that I downloaded</q-item-tile> -->
           </q-item-main>
         </q-item>

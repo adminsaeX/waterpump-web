@@ -8,6 +8,7 @@ import ManageUsers from './views/ManageUsers.vue'
 import WaterFlow from './views/WaterFlow.vue'
 import PumpingSystem from './views/PumpingSystem.vue'
 import Notification from './views/Notification.vue'
+import SystemNotification from './views/SystemNotification.vue'
 import Overview from './views/Overview.vue'
 import PIDiagrame from './views/PIDiagrame.vue'
 import TempAndHumidity from './views/TempAndHumidity.vue'
@@ -29,6 +30,7 @@ export default new Router({
         { path: '/WaterFlow', name: 'WaterFlow', component: WaterFlow },
         { path: '/PumpingSystem', name: 'PumpingSystem', component: PumpingSystem },
         { path: '/Notification', name: 'Notification', component: Notification },
+        { path: '/SystemNotification', name: 'SystemNotification', component: SystemNotification },
         { path: '/Overview', name: 'Overview', component: Overview },
         { path: '/TempAndHumidity', name: 'TempAndHumidity', component: TempAndHumidity },
       ]
