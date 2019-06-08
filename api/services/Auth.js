@@ -15,7 +15,7 @@ authApp.post('/client', function (req, res) {
     console.log({
         username: req.body.username,
         password: req.body.password
-    });
+    })
 
     if (username == 'admin' && password == '1234') {
         user = {

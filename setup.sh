@@ -1,0 +1,1 @@
+cd $(pwd)/ && npm install && cd client/ && npm install && npm run build && cd .. && ~/bin/pm2 reload ecosystem.config.js --only solarpump_prod --env dev
