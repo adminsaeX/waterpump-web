@@ -2,6 +2,7 @@
   <q-layout view="lHh Lpr lFf" id="app">
     <q-layout-header>
       <q-toolbar
+        v-if="hiddenOnScreen"
         color="primary"
       >
         <q-btn
@@ -15,21 +16,25 @@
         </q-btn>
 
         <q-toolbar-title>
-          Project - Untitle
+          ชื่อโครงการ - ไม่ระบุ
         </q-toolbar-title>
 
-        <div>Develop by&nbsp;<q-chip icon="check_circle" size="10px">Quasar v{{ $q.version }}</q-chip></div>
+        <div>
+          <q-chip small icon="check_circle" size="8px">Quasar v{{ $q.version }}</q-chip>&nbsp;
+          <q-btn flat dense icon="exit_to_app" title="Sign out" @click="logoutAction"></q-btn>
+        </div>
       </q-toolbar>
     </q-layout-header>
 
     <q-layout-drawer
+      v-if="hiddenOnScreen"
       v-model="leftDrawerOpen"
       bordered
       content-class="bg-grey-2"
     >
       <q-list separator bordered align="center">
         <q-list-header>
-          <span style="font-size: 18px;">Solar Water Pumping</span>
+          <span style="font-size: 18px;">Solar Pump System</span>
         </q-list-header>
         <q-item>
           <q-item-side>
@@ -41,8 +46,8 @@
           <q-item-main>
             <div class="row">
               <div class="col">
-                <span style="font-size: 20px;">Username</span><br>
-                <span>Status: <b style="color: green; font-size: 10px;">ONLINE&nbsp;&nbsp;<q-icon color="green" name="check_circle" /></b></span>
+                <span style="font-size: 20px;">{{ Auth.username }}</span><br>
+                <span><b style="color: secondary; font-size: 10px;">ONLINE&nbsp;&nbsp;<q-icon color="secondary" name="check_circle" /></b></span>
               </div>
               <div class="col" align="center">
                 <q-btn
@@ -65,7 +70,7 @@
           </q-item-main>
         </q-item>
 
-        <q-item clickable to="/PumpingSystem">
+        <q-item clickable to="/PumpingSystem" v-if="isAdmin || isUser">
           <q-item-side icon="swap_vertical_circle"></q-item-side>
           <q-item-main>
             <q-item-tile label>ระบบสูบน้ำ 2.5 กิโลวัตต์</q-item-tile>
@@ -91,7 +96,7 @@
           </q-item-main>
         </q-item>
 
-        <q-item clickable to="/ManageUsers">
+        <q-item clickable to="/ManageUsers" v-if="isAdmin">
           <q-item-side icon="assignment_ind"></q-item-side>
           <q-item-main>
             <q-item-tile label>ระบบจัดการผู้ใช้งาน</q-item-tile>
@@ -123,7 +128,7 @@
           </q-item-main>
         </q-item>
 
-         <q-item clickable to="/SystemNotification">
+         <q-item clickable to="/SystemNotification" v-if="isAdmin">
           <q-item-side icon="notification_important"></q-item-side>
           <q-item-main>
             <q-item-tile label>
@@ -136,10 +141,26 @@
           </q-item-main>
         </q-item>
 
-        <q-item clickable to="/Overview">
+        <q-item clickable to="/Overview" v-if="isAdmin || isUser">
           <q-item-side icon="insert_chart"></q-item-side>
           <q-item-main>
             <q-item-tile label>รายงานสรุปผล</q-item-tile>
+            <!-- <q-item-tile sublabel>Notify me about updates to apps or games that I downloaded</q-item-tile> -->
+          </q-item-main>
+        </q-item>
+
+        <q-item clickable to="/Feedback" v-if="isGuest">
+          <q-item-side icon="feedback"></q-item-side>
+          <q-item-main>
+            <q-item-tile label>แจ้งปัญหาการใช้งาน</q-item-tile>
+            <!-- <q-item-tile sublabel>Notify me about updates to apps or games that I downloaded</q-item-tile> -->
+          </q-item-main>
+        </q-item>
+
+        <q-item clickable to="/ProjectManage" v-if="isAdmin">
+          <q-item-side icon="insert_chart"></q-item-side>
+          <q-item-main>
+            <q-item-tile label>กลับหน้าระบบจัดการโครงการ</q-item-tile>
             <!-- <q-item-tile sublabel>Notify me about updates to apps or games that I downloaded</q-item-tile> -->
           </q-item-main>
         </q-item>
@@ -156,12 +177,49 @@
 <script>
 
 export default {
-  data () {
+  data() {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: this.$q.platform.is.desktop,
+      hiddenOnScreen: true
+    }
+  },
+  computed: {
+    isAdmin () { return this.$store.getters.isAdmin },
+    isUser () { return this.$store.getters.isUser },
+    isGuest () { return this.$store.getters.isGuest },
+    Auth () { return this.$store.state.auth },
+    isAuth () { return this.$store.getters.isAuthenticated }
+  },
+  mounted() {
+    var path = window.location.hash
+    this.checkLocationPath(path)
+  },
+  watch: {
+    '$route': function () {
+      var path = window.location.hash
+      this.checkLocationPath(path)
+    },
+    'isAuth': function () {
+      this.checkAuth()
     }
   },
   methods: {
+    checkLocationPath (path) {
+      if (String(path).match(/Login*/) || String(path).match(/Register*/)) {
+        this.hiddenOnScreen = false
+      } else {
+        this.checkAuth()
+        this.hiddenOnScreen = true
+      }
+    },
+    checkAuth () {
+      if (!this.isAuth) {
+        this.$router.push('/Login')
+      }
+    },
+    logoutAction () {
+      this.$store.dispatch('logout')
+    }
   }
 }
 </script>
@@ -177,6 +235,6 @@ export default {
     background-color: #87C5D0;
   }
   hr {
-    border: 1px solid #87C5D0;
+    border: 1px dotted #87C5D0;
   }
 </style>

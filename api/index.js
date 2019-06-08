@@ -9,10 +9,10 @@ const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const compression = require('compression')
-// const database = import('./database/firebase_connection')
 const app = express()
 
 // services import
+const Auth = require('./services/Auth')
 const Users = require('./services/Users')
 const Electricity = require('./services/Electricity')
 
@@ -33,24 +33,18 @@ app.use(compression())
 
 // hi, default page
 app.get('/', (req, res) => {
-    res.send('555555')
-    // var device = database.ref('Device/')
-    // try {
-    //     device.on('value', function(snapshot) {
-    //         if (snapshot) {
-    //             res.send(snapshot.val())
-    //         }
-    //     })
-    // } catch (error) {
-    //     console.log(error)
-    // }
+    res.send('Hello!')
 })
 
 //==================== API SECTION ====================//
 // Users API
 app.use('/users', Users)
 
+// auth api
+app.use('/auth', Auth)
+
 // Electricity API
 app.use('/electricity', Electricity)
+//==================== API SECTION ====================//
 
 module.exports = app

@@ -31,21 +31,37 @@
             <q-card-main>
               <q-list highlight v-for="(item, index) in 3" v-bind:key="index">
                 <q-item>
-                  <q-item-side avatar="http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/sign-check-icon.png" />
+                  <q-item-side icon="notification_important" color="secondary" />
                   <q-item-main :label="`การแจ้งเตือน ${index + 1}`" />
                 </q-item>
               </q-list>
             </q-card-main>
           </q-card>
           <br>
-          <q-card>
+          <q-card v-if="isAdmin">
             <q-card-title>รายชื่อผู้ใช้งานออนไลน์</q-card-title>
             <q-card-separator/>
             <q-card-main>
              <q-list highlight v-for="(item, index) in 3" v-bind:key="index">
                 <q-item>
-                  <q-item-side avatar="http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/sign-check-icon.png" />
+                  <q-item-side icon="account_circle" color="secondary" />
                   <q-item-main :label="`ผู้ใช้ ${index + 1}`" />
+                </q-item>
+              </q-list>
+            </q-card-main>
+          </q-card>
+          <br>
+          <q-card v-if="isGuest || isUser">
+            <q-card-title>รายละเอียดอุปกรณ์</q-card-title>
+            <q-card-separator/>
+            <q-card-main>
+             <q-list highlight v-for="(item, index) in 3" v-bind:key="index">
+                <q-item>
+                  <q-item-side icon="phonelink_setup" color="secondary" />
+                  <q-item-main :label="`ชื่อกลุ่ม ${index + 1}`" />
+                  <q-item-main :label="`สถานที่ตั้ง ${index + 1}`" />
+                  <q-item-main :label="`ผู้ดูแล ${index + 1}`" />
+                  <q-item-main :label="`เบอร์โทร ${index + 1}`" />
                 </q-item>
               </q-list>
             </q-card-main>
@@ -99,7 +115,13 @@
 
 <script>
 export default {
-  name: "PageHome"
+  computed: {
+    isAdmin () { return this.$store.getters.isAdmin },
+    isUser () { return this.$store.getters.isUser },
+    isGuest () { return this.$store.getters.isGuest },
+    Auth () { return this.$store.state.auth },
+    isAuth () { return this.$store.getters.isAuthenticated }
+  }
 }
 </script>
 <style>

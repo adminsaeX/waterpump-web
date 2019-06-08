@@ -15,7 +15,9 @@ const initialState = () => {
     token: null,
     language: 'en',
     auth: {
-      username: ''
+      username: '',
+      rule: 0,
+      id: ''
     },
     reportType: [
       { value: 'DC_Amp', label: 'แรงดันไฟฟ้า' },
@@ -59,7 +61,10 @@ const initialState = () => {
 export default new Vuex.Store({
   state: initialState,
   getters: {
-    isAuthenticated: ({ token }) => token !== null
+    isAuthenticated: ({ token }) => token !== null,
+    isAdmin: ({ auth }) => auth.rule === 1,
+    isUser: ({ auth }) => auth.rule === 2,
+    isGuest: ({ auth }) => auth.rule === 0
   },
   mutations,
   actions,
