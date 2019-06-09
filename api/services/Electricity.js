@@ -4,6 +4,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
 /* eslint-disable quotes */
+require('dotenv').config()
 const express = require('express')
 const electricityApp = express.Router()
 const MongoClient = require('mongodb').MongoClient
@@ -20,14 +21,10 @@ app.use(morgan('combined'))
 app.use(compression())
 
 // Connection URL
-const url = 'mongodb://localhost:27017'
-// const url = 'mongodb://34.73.53.90:27017'
-
-// Database Name
-// const dbName = 'thinger_data'
-const dbName = 'solar_pump'
-
-var db_options = {
+// const url = 'mongodb://localhost:27017'
+const url = process.env.DBURL
+const dbName = process.env.DBNAME
+const db_options = {
     autoReconnect: true,
     socketTimeoutMS: 480000,
     keepAlive: 300000,
@@ -40,26 +37,12 @@ var db_options = {
 
 MongoClient.connect(url, db_options, function (err, client) {
     assert.equal(null, err)
-    const db = client.db(dbName).collection("report_data")
-
+    
     // api get report data
     electricityApp.post('/', function (req, res) {
-        var date_start = req.body.date_start || ''
-        var date_end = req.body.date_end || ''
-
-        // log data request
-        console.log('electricityApp', colors.cyan({
-            date_start: new Date(date_start),
-            date_end: new Date(date_end)
-        }))
-        
+        const db = client.db(dbName).collection("solar_device_data")
         // mongodb query function
-        db.find({
-            "ts": {
-                $gte: new Date(req.body.date_start), 
-                $lte: new Date(req.body.date_end)
-            }
-        }).toArray(function (err, result) {
+        db.find({}).toArray(function (err, result) {
             // if mongodb have an error send status 500
             if (err || this.status == 'DESTOYER') {
                 res.status(500).json({

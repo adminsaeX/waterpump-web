@@ -62,9 +62,9 @@ export default new Vuex.Store({
   state: initialState,
   getters: {
     isAuthenticated: ({ token }) => token !== null,
-    isAdmin: ({ auth }) => auth.rule === 1,
-    isUser: ({ auth }) => auth.rule === 2,
-    isGuest: ({ auth }) => auth.rule === 0
+    isAdmin: ({ auth }) => auth.rule == 'vip',
+    isUser: ({ auth }) => auth.rule == 'admin',
+    isGuest: ({ auth }) => auth.rule == 'user'
   },
   mutations,
   actions,
