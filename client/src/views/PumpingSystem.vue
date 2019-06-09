@@ -423,8 +423,6 @@ export default {
 const initColumn = () => {
     return [
         {
-            field: 'serialNo',
-            name: 'serialNo',
             label: 'เลือก',
             align: 'left',
             sortable: true
