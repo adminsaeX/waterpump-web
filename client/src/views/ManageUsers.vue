@@ -316,27 +316,47 @@ export default {
         generateDataTable () {
             var data = this.tableData
             var subDistrict = ['บ้านพร้าว', 'หนองบัว', 'หนองภัยศูนย์', 'โพธิ์ชัย', 'หนองสวรรค์', 'หัวนา', 'บ้านขาม', 'นามะเฟือง']
-            for (var i = 2; i< 939; i++) {
-                var num = Math.floor((Math.random() * 999999) + 100000)
-                data.push({
-                    id: 'U-'+num,
-                    fullname: 'NAME '+num,
-                    address: '1000/'+Math.floor((Math.random() * 20) + 10),
-                    subDistrict: subDistrict[Math.floor((Math.random() * 8) + 0)],
-                    district: 'เมือง',
-                    province: 'หนองบัวลำภู',
-                    username: 'username'+i,
-                    tel: '09' + Math.floor((Math.random() * 99999999) + 10000000),
-                    status: 'ใช้งาน'
-                })
-            }
+            this.$store.dispatch('RequestUserList').then((res) => {
+                if (res) {
+                    for (var i in res) {
+                        data.push({
+                            id: res[i]._id,
+                            fullname: 'null',
+                            address: 'null',
+                            subDistrict: 'null',
+                            district: 'null',
+                            province: 'null',
+                            username: res[i].user_ID,
+                            tel: 'null',
+                            status: res[i].status
+                        })
+                    }
+                } else {
+                    data = []
+                }
+            })
+            
+            // for (var i = 2; i< 939; i++) {
+            //     var num = Math.floor((Math.random() * 999999) + 100000)
+            //     data.push({
+            //         id: 'U-'+num,
+            //         fullname: 'NAME '+num,
+            //         address: '1000/'+Math.floor((Math.random() * 20) + 10),
+            //         subDistrict: subDistrict[Math.floor((Math.random() * 8) + 0)],
+            //         district: 'เมือง',
+            //         province: 'หนองบัวลำภู',
+            //         username: 'username'+i,
+            //         tel: '09' + Math.floor((Math.random() * 99999999) + 10000000),
+            //         status: 'ใช้งาน'
+            //     })
+            // }
         }
     }
 }
 const initColumn = () => {
     return [
         {
-            name: 'id',
+            name: 'select',
             label: 'เลือก',
             align: 'left',
             sortable: true

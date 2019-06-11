@@ -54,6 +54,17 @@ const actions = {
                 return error.response.data.data
             })
     },
+    RequestUserList({ state, commit }, form) {
+        return makeRequest().post(`/api/users/`, querystring.stringify(form))
+            .then(({ status, data }) => {
+                return data.data
+            }).catch(function (error) {
+                if (error.response) {
+                    console.log(error.response.data)
+                }
+                return error.response.data.data
+            })
+    },
     GetReportData({ state, commit }, date) {
         return makeRequest(state.token).post('/api/electricity/', date)
         .then(({ status, data }) => {

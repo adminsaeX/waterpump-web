@@ -40,7 +40,7 @@ MongoClient.connect(process.env.DBURL, db_options, function (err, client) {
     // api get all user data
     userApp.post('/', function (req, res) {
         // mongodb query function
-        collection.find().toArray(function (err, result) {
+        collection.find({}).toArray(function (err, result) {
             if (err || this.status == 'DESTOYER') {
                 sendResponse(res, 500, err.message)
                 return
