@@ -34,8 +34,8 @@ module.exports = {
     ],
     deploy: {
         production: {
-            user: 'somasri_p',
-            host: '35.243.201.124',
+            user: 'root',
+            host: '34.87.57.39',
             ref: 'origin/master',
             repo: 'git@github.com:ballsurakiat/waterpump-web.git',
             path: '/var/www/html',
