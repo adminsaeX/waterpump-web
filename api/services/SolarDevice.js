@@ -6,7 +6,7 @@
 /* eslint-disable quotes */
 require('dotenv').config()
 const express = require('express')
-const userApp = express.Router()
+const solarDeviceApp = express.Router()
 const MongoClient = require('mongodb').MongoClient
 const assert = require('assert')
 const colors = require('colors')
@@ -36,10 +36,10 @@ var db_options = {
 MongoClient.connect(process.env.DBURL, db_options, function (err, client) {
     assert.equal(null, err)
     var db = client.db(process.env.DBNAME)
-    var collection = db.collection("solar_user")
+    var collection = db.collection("solar_device")
 
     // api get all user data
-    userApp.post('/', middelWare.checkToken, function (req, res) {
+    solarDeviceApp.post('/', middelWare.checkToken, function (req, res) {
         // mongodb query function
         collection.find({}).toArray(function (err, result) {
             if (err || this.status == 'DESTOYER') {
@@ -58,13 +58,13 @@ MongoClient.connect(process.env.DBURL, db_options, function (err, client) {
     })
 
     // api user register
-    userApp.post('/register', function (req, res) {
+    solarDeviceApp.post('/register', function (req, res) {
         var username = req.body.username
         var password = req.body.password
         var rule = req.body.rule
         var enPass = base64.base64Encode(password)
         if (username && password) {
-            collection.find({ "user_ID": username}).toArray(function (err, search) {
+            collection.find({ "user_ID": username }).toArray(function (err, search) {
                 if (err || this.status == 'DESTOYER') {
                     sendResponse(res, 500, err.message)
                     return
@@ -99,10 +99,10 @@ MongoClient.connect(process.env.DBURL, db_options, function (err, client) {
         }
 
         // mongodb query function
-        
+
     })
 
-    userApp.post('/delete', middelWare.checkToken, function (req, res) {
+    solarDeviceApp.post('/delete', function (req, res) {
         var data = {
             "user_ID": "admin"
         }
@@ -123,7 +123,7 @@ MongoClient.connect(process.env.DBURL, db_options, function (err, client) {
     })
 })
 
-module.exports = userApp
+module.exports = solarDeviceApp
 const sendResponse = (res, status, data) => {
     console.log('MongoDB', colors.red(data))
     res.status(status).json({ data })

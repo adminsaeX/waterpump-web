@@ -55,12 +55,23 @@ const actions = {
             })
     },
     RequestUserList({ state, commit }, form) {
-        return makeRequest().post(`/api/users/`, querystring.stringify(form))
+        return makeRequest(state.token).post(`/api/users/`, querystring.stringify(form))
             .then(({ status, data }) => {
                 return data.data
             }).catch(function (error) {
                 if (error.response) {
-                    console.log(error.response.data)
+                    console.log(error.response.data.data)
+                }
+                return error.response.data.data
+            })
+    },
+    RequestSolarDeviceList({ state, commit }, form) {
+        return makeRequest(state.token).post(`/api/solardevice/`, querystring.stringify(form))
+            .then(({ status, data }) => {
+                return data.data
+            }).catch(function (error) {
+                if (error.response) {
+                    console.log(error.response.data.data)
                 }
                 return error.response.data.data
             })

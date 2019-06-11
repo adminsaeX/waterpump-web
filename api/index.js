@@ -14,7 +14,7 @@ const app = express()
 // services import
 const Auth = require('./services/Auth')
 const Users = require('./services/Users')
-const Electricity = require('./services/Electricity')
+const SolarDevice = require('./services/SolarDevice')
 
 // allow cross domain use api
 const allowCrossDomain = function (req, res, next) {
@@ -44,7 +44,7 @@ app.use('/users', Users)
 app.use('/auth', Auth)
 
 // Electricity API
-app.use('/electricity', Electricity)
+app.use('/solardevice', SolarDevice)
 //==================== API SECTION ====================//
 
 module.exports = app

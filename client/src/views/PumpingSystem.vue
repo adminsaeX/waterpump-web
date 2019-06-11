@@ -400,23 +400,45 @@ export default {
             // }
         },
         generateDataTable () {
-            var data = this.tableData
-            var subDistrict = ['บ้านพร้าว', 'หนองบัว', 'หนองภัยศูนย์', 'โพธิ์ชัย', 'หนองสวรรค์', 'หัวนา', 'บ้านขาม', 'นามะเฟือง']
-            for (var i = 2; i< 939; i++) {
-                var num = Math.floor((Math.random() * 999999) + 100000)
-                data.push({
-                    serialNo: 'SN-'+num,
-                    address: '1000/'+Math.floor((Math.random() * 20) + 10),
-                    subDistrict: subDistrict[Math.floor((Math.random() * 8) + 0)],
-                    district: 'เมือง',
-                    province: 'หนองบัวลำภู',
-                    dateSetup: `2019/${Math.floor((Math.random() * 12) + 1)}/` + Math.floor((Math.random() * 20) + 10),
-                    serialNoPump: 'SNP-'+num,
-                    serialNoInverter: 'SNIVT-' + num,
-                    admin: 'admin'+i,
-                    adminTel: '09' + Math.floor((Math.random() * 99999999) + 10000000)
-                })
-            }
+            this.$store.dispatch('RequestSolarDeviceList').then((res) => {
+                if (res) {
+                    for (var i in res) {
+                        this.tableData.push({
+                            id: res[i]._id,
+                            serialNo: res[i].device_ID,
+                            device_name: res[i].device_name,
+                            address: 'null',
+                            subDistrict: 'null',
+                            district: 'null',
+                            province: 'null',
+                            dateSetup: 'null',
+                            serialNoPump: 'null',
+                            serialNoInverter: 'null',
+                            admin: res[i].user_ID,
+                            adminTel: 'null',
+                            pro_ID: res[i].pro_ID
+                        })
+                    }
+                } else {
+                    this.tableData = []
+                }
+            })
+            
+            // for (var i = 2; i< 939; i++) {
+            //     var num = Math.floor((Math.random() * 999999) + 100000)
+            //     data.push({
+            //         serialNo: 'SN-'+num,
+            //         address: '1000/'+Math.floor((Math.random() * 20) + 10),
+            //         subDistrict: subDistrict[Math.floor((Math.random() * 8) + 0)],
+            //         district: 'เมือง',
+            //         province: 'หนองบัวลำภู',
+            //         dateSetup: `2019/${Math.floor((Math.random() * 12) + 1)}/` + Math.floor((Math.random() * 20) + 10),
+            //         serialNoPump: 'SNP-'+num,
+            //         serialNoInverter: 'SNIVT-' + num,
+            //         admin: 'admin'+i,
+            //         adminTel: '09' + Math.floor((Math.random() * 99999999) + 10000000)
+            //     })
+            // }
         }
     },
 }
@@ -428,9 +450,23 @@ const initColumn = () => {
             sortable: true
         },
         {
+            field: 'id',
+            name: 'id',
+            label: 'ID',
+            align: 'left',
+            sortable: true
+        },
+        {
             field: 'serialNo',
             name: 'serialNo',
             label: 'Serial No.',
+            align: 'left',
+            sortable: true
+        },
+        {
+            field: 'device_name',
+            name: 'device_name',
+            label: 'Device Name',
             align: 'left',
             sortable: true
         },
@@ -494,6 +530,13 @@ const initColumn = () => {
             field: 'adminTel',
             name: 'adminTel',
             label: 'เบอร์โทร.ผู้ดูแล',
+            align: 'left',
+            sortable: true
+        },
+        {
+            field: 'pro_ID',
+            name: 'pro_ID',
+            label: 'รหัสโครงการ',
             align: 'left',
             sortable: true
         }
