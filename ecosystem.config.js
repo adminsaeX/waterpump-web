@@ -34,11 +34,11 @@ module.exports = {
     ],
     deploy: {
         production: {
-            user: 'root',
+            user: 'dev',
             host: '34.87.57.39',
             ref: 'origin/master',
             repo: 'git@github.com:ballsurakiat/waterpump-web.git',
-            path: '/var/www/html',
+            path: '/home/dev',
             'post-deploy': 'sh $(pwd)/setup.sh'
         }
     }
